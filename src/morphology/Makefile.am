@@ -19,20 +19,10 @@
 HFST_LEXC_LOCAL_FLAGS=
 
 # Set this to name of lexc file containing Multichar_Symbols and LEXICON Root
-GT_LEXC_ROOT=$(srcdir)/root.lexc
+GT_LEXC_ROOT=$(srcdir)/ext-Apertium-$(GLANG)/apertium-$(GLANG).$(GLANG).dix
 
 # Set this to the names of all regular lexc source files:
-GT_LEXC_SRCS_L1_L2=\
-			 affixes/adjectives.lexc  \
-			 affixes/nouns.lexc       \
-			 affixes/propernouns.lexc \
-			 affixes/verbs.lexc       \
-			 stems/adjectives.lexc    \
-			 stems/nouns.lexc         \
-			 stems/numerals.lexc      \
-			 stems/prefixes.lexc      \
-			 stems/pronouns.lexc      \
-			 stems/verbs.lexc
+GT_LEXC_SRCS_L1_L2=
 
 # If you are building an error-detecting L2 analyser, specify the lexc files
 # that differ between the regular L1 and the L2 analysers below, in L1 and
@@ -74,6 +64,63 @@ GT_DISTRO_SRCS=
 
 GIELLA_LOCAL_TARGETS=
 
+HFST_REGEXP2FST_FLAGS=--xerox-composition=true
+
+TAG_EXTRACTION_FST=$(builddir)/lexicon.tmp
+TAG_FILE=tags.txt
+LEX_TAG_FILE=lexicon-$(TAG_FILE)
+
+ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz: $(GT_LEXC_ROOT)
+	$(AM_V_GEN)cd $(dir $@ ) && $(MAKE) $(notdir $@ )
+
+lexicon.tmp.hfst: ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz
+	$(AM_V_TXT2FST)gunzip --stdout $< \
+		| sed -e "s/ /\'@_SPACE_@\'/g" \
+		| $(HFST_TXT2FST) $(MORE_VERBOSITY) $(HFST_FORMAT) --epsilon=ε \
+		| $(HFST_INVERT) $(MORE_VERBOSITY) \
+		-o $@
+
+lexicon-tags.txt: lexicon-sigma.txt
+	$(AM_V_GEN)grep '<.*>' $< > $@
+
+lexicon-tags.relabel: lexicon-tags.txt
+	$(AM_V_GEN)sed -e 's/<//' -e 's/>//' $< \
+		| perl -pe 's/^(.)/+\u$$1/' \
+		| paste $< - > $@
+
+#lexicon-relabel.regex: lexicon-tags.txt
+#	$(AM_V_GEN)sed -e 's/<//' -e 's/>//' $< \
+#		| perl -pe 's/^(.)(.*)/"+\u$$1$$2"\t<-/' \
+#		| paste - $< \
+#		| perl -pe 's/<-\t/<-\t"/' \
+#		| sed -e 's/$$/",/' \
+#		| sed '$$ s/,/;/' \
+#		> $@
+
+lexicon.hfst: lexicon.tmp.hfst lexicon-tags.relabel
+	$(AM_V_HSPLIT)$(HFST_SPLIT) -p LEX_PARTS $<
+	$(AM_V_HSUBST)for f in $$(ls LEX_PARTS*); do \
+		$(HFST_SUBSTITUTE) $(MORE_VERBOSITY) $(HFSTFLAGS) -i $$f \
+		 --from-file=lexicon-tags.relabel -o RELABELLED_$$f; done
+	$(AM_V_GEN)cat RELABELLED_* > $@
+	$(AM_V_at)rm -f LEX_PARTS* RELABELLED_*
+
+#lexicon.hfst lexicon.foma: \
+#lexicon.%: lexicon.tmp.% lexicon-relabel.%
+#	$(AM_V_XFST_TOOL)$(PRINTF) "read regex \
+#				@\"lexicon-relabel.$*\"                \
+#			.o. @\"$<\" \
+#			; \n\
+#		 save stack $@\n\
+#		 quit\n" | $(XFST_TOOL)
+
+# Commented out till there is time to look at this:
+#lexicon.foma: ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz
+#	$(AM_V_GEN)gunzip --force $<
+#	$(AM_V_CP)cp -f $< $@
+
+include $(top_srcdir)/am-shared/regex-include.am
+include $(top_srcdir)/am-shared/tag-extraction-include.am
 ### END: Local processing: ###
 
 ####### Other targets: ###########
@@ -82,6 +129,8 @@ GIELLA_LOCAL_TARGETS=
 clean-local:
 	-rm -f *.all.* *fst *.foma *.script generated_files/*.lexc lexicon.*
 	-rm -f url.lexc *.tmp.*
+	-$(MAKE) -C ext-Apertium-$(GLANG) clean
+	-rm -f lexicon-*
 
 include $(top_srcdir)/am-shared/src-morphology-dir-include.am
 
