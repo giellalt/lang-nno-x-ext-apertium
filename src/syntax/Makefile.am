@@ -25,6 +25,10 @@ endif # WANT_SYNTAX
 #################################################
 #### Add language-specific build rules here: ####
 
+disambiguator.cg3: \
+$(top_srcdir)/src/morphology/ext-Apertium-$(GLANG)/apertium-$(GLANG).$(GLANG).syn.rlx
+	$(AM_V_CP)cp -f $< $@
+
 ##################################################################
 #### END: Add local processing instructions ABOVE this line ######
 ##################################################################
@@ -32,6 +36,7 @@ endif # WANT_SYNTAX
 ####### Other targets: ###########
 clean-local:
 	-rm -f *.bin
+	-rm -f disambiguator.cg3
 
 ####### Build rules via include: ########
 
