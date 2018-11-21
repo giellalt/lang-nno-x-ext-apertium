@@ -101,18 +101,19 @@ lexicon-tags.relabel: lexicon-tags.txt
 #		| sed '$$ s/,/;/' \
 #		> $@
 
+# It seems that Apertium (or Hfst?) is producing a small, random fst + the real fst
+# We need to get rid of that small fst to continue with the real stuff.
+# NB! This might not be a correct observation, and it must be checked with f.ex. Kevin
 lexicon.hfst: lexicon.tmp.hfst lexicon-tags.relabel
 	$(AM_V_HSPLIT)$(HFST_SPLIT) -p LEX_PARTS $<
-	$(AM_V_HSUBST)for f in $$(ls LEX_PARTS*); do \
-		$(HFST_SUBSTITUTE) $(MORE_VERBOSITY) $(HFSTFLAGS) -i $$f \
-		 --from-file=lexicon-tags.relabel -o RELABELLED_$$f; done
-	$(AM_V_GEN)cat RELABELLED_* > $@
-	$(AM_V_at)rm -f LEX_PARTS* RELABELLED_*
+	$(AM_V_HSUBST)$(HFST_SUBSTITUTE) $(MORE_VERBOSITY) $(HFSTFLAGS) \
+		-i LEX_PARTS2.hfst --from-file=lexicon-tags.relabel -o $@
+	$(AM_V_at)rm -f LEX_PARTS*
 
 #lexicon.hfst lexicon.foma: \
 #lexicon.%: lexicon.tmp.% lexicon-relabel.%
 #	$(AM_V_XFST_TOOL)$(PRINTF) "read regex \
-#				@\"lexicon-relabel.$*\"                \
+#				@\"lexicon-relabel.$*\"    \
 #			.o. @\"$<\" \
 #			; \n\
 #		 save stack $@\n\
