@@ -71,7 +71,12 @@ TAG_EXTRACTION_FST=$(builddir)/lexicon.tmp
 TAG_FILE=tags.txt
 LEX_TAG_FILE=lexicon-$(TAG_FILE)
 
-ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz: $(GT_LEXC_ROOT)
+$(srcdir)/ext-Apertium-$(GLANG)/configure: \
+        $(srcdir)/ext-Apertium-$(GLANG)/configure.ac
+	$(AM_V_GEN)cd $(dir $@ ) && ./autogen.sh
+
+$(srcdir)/ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz: $(GT_LEXC_ROOT) \
+        $(srcdir)/ext-Apertium-$(GLANG)/configure
 	$(AM_V_GEN)cd $(dir $@ ) && $(MAKE) $(notdir $@ )
 
 lexicon.tmp.hfst: ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz
