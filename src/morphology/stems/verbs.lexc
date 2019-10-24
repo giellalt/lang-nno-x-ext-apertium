@@ -1,0 +1,8 @@
+!! Verbs
+!  -----
+!! Verbs in the Norwegian Nynorsk language are actions.
+
+LEXICON Verbs
+verb    Persons   ;
+
+! vim: set ft=xfst-lexc:
