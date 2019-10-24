@@ -1,8 +1,0 @@
-!! Adjectives
-!  ----------
-!! Adjectives in the Norwegian Nynorsk language describe things.
-
-LEXICON Adjectives
-adjective    Comparisons   ;
-
-! vim: set ft=xfst-lexc:
