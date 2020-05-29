@@ -1,3 +1,0 @@
-[submodule "src/fst/ext-Apertium-nno"]
-	path = src/fst/ext-Apertium-nno
-	url = https://github.com/apertium/apertium-nno.git
