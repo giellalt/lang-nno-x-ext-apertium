@@ -5,5 +5,5 @@ version = "@SPELLERVERSION@"
 system_pkg_id = "no.divvun.MacDivvun.nno-x-ext-apertium"
 
 [windows]
-system_product_code = "{EE4F2CF7-649B-488B-A66B-A65BAD0F25B}_is1"
+system_product_code = "{EE4F2CF7-649B-488B-A66B-A65BAD0F25B4}_is1"
 # extra_locales = { nno = "nno-x-ext-apertium" }
