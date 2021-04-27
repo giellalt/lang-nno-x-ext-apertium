@@ -5,11 +5,17 @@
 [![Issues](https://img.shields.io/github/issues/giellalt/lang-nno)](https://github.com/giellalt/lang-nno/issues)
 [![Build status](https://github.com/giellalt/lang-nno/workflows/Speller%20CI+CD/badge.svg)](https://github.com/giellalt/lang-nno/actions)
 
-This page documents the work on the **Norwegian Nynorsk language model**. 
+This page documents the work on the **Norwegian Nynorsk language model** from Apertium.
+
+The basic idea is to take the Apertium source file, and reuse them in the GiellaLT project, to build spellers, analysers, and to provide speller support in mobile keyboards.
 
 # Project documentation
 
-* Add links to project specific documentation here as needed. Keep the documentation in the `docs/` directory.
+* all documentation regarding the basic fst is to be found in the
+[Apertium NNO repositorium](https://github.com/apertium/apertium-nno).
+
+In the future there might be documentation on the GiellaLT specific enhancements
+and changes made to the Apertium analyser.
 
 # In-source documentation
 
