@@ -7,7 +7,7 @@
 
 This page documents the work on the **Norwegian Nynorsk language model** from Apertium.
 
-The basic idea is to take the Apertium source file, and reuse them in the GiellaLT project, to build spellers, analysers, and to provide speller support in mobile keyboards.
+It is used in some MT projects at UiT. Beyond that, the idea is to take the Apertium source files, and reuse them in the GiellaLT infrastructure (both Apertium and GiellaLT are FST based), to build spellers, analysers, and to provide speller support in mobile keyboards.
 
 # Project documentation
 
