@@ -1,4 +1,4 @@
-# Norwegian Nynorsk documentation
+# Norwegian Nynorsk (Apertium) documentation
 
 [![Maturity: Experiment](https://img.shields.io/badge/Maturity-Experiment-black.svg)](https://giellalt.github.io/MaturityClassification.html)
 [![License](https://img.shields.io/github/license/giellalt/lang-nno)](https://raw.githubusercontent.com/giellalt/lang-nno/develop/LICENSE)
