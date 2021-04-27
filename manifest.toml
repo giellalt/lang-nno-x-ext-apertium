@@ -1,5 +1,5 @@
 name = "Nynorsk (Apertium)"
-version = "0.0.1"
+version = "0.1.1"
 
 [macos]
 system_pkg_id = "no.divvun.MacDivvun.nno-x-ext-apertium"
