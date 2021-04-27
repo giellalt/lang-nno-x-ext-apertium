@@ -19,6 +19,8 @@ jobs:
         uses: divvun/actions/lang/install-deps@master
         with:
           sudo: true
+        with:
+          apertium: true
       - name: Build giella-core/giella-shared
         uses: divvun/actions/lang/build@master
         with:
