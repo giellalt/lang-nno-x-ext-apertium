@@ -1,15 +1,15 @@
 The Norwegian Nynorsk morphology and tools
 ==========================================
 
-[![GitHub issues](https://img.shields.io/github/issues-raw/giellalt/lang-nno)](https://github.com/giellalt/lang-nno/issues)
-[![Build Status](https://github.com/giellalt/lang-nno/workflows/Speller%20CI+CD/badge.svg)](https://github.com/giellalt/lang-nno/actions)
-[![License](https://img.shields.io/github/license/giellalt/lang-nno)](https://raw.githubusercontent.com/giellalt/lang-nno/develop/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues-raw/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/issues)
+[![Build Status](https://github.com/giellalt/lang-nno-x-ext-apertium/workflows/Speller%20CI+CD/badge.svg)](https://github.com/giellalt/lang-nno-x-ext-apertium/actions)
+[![License](https://img.shields.io/github/license/giellalt/lang-nno-x-ext-apertium)](https://raw.githubusercontent.com/giellalt/lang-nno-x-ext-apertium/main/LICENSE)
 
 This repository contains finite state source files for the Norwegian Nynorsk language,
 for building morphological analysers, proofing tools
 and dictionaries. The data and implementation are licenced under __LICENCE__
 licence, also detailed in the
-[LICENCE](https://github.com/giellalt/lang-nno/blob/develop/LICENCE). The
+[LICENSE](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/LICENSE). The
 authors named in the AUTHORS file are available to grant other licencing
 choices.
 
@@ -66,18 +66,18 @@ Downloading
 
 Using Git:
 ```
-git clone https://github.com/giellalt/lang-nno
+git clone https://github.com/giellalt/lang-nno-x-ext-apertium
 ```
 
 Using Subversion:
 ```
-svn checkout https://github.com/giellalt/lang-nno.git/trunk lang-nno
+svn checkout https://github.com/giellalt/lang-nno-x-ext-apertium.git/trunk lang-nno-x-ext-apertium
 ```
 
 Building and installation
 -------------------------
 
-[INSTALL](https://github.com/giellalt/lang-nno/blob/develop/INSTALL)
+[INSTALL](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/INSTALL)
 describes the GNU build system in detail, but for most users it is the usual:
 
 ```sh
