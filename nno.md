@@ -697,6 +697,23 @@ word classes, or optionally from prefixes:
 <small>This (part of) documentation was generated from [../src/fst/root.lexc](http://github.com/giellalt/lang-nno/blob/main/../src/fst/root.lexc)</small>
 
 
+We describe here how abbreviations are in Norwegian Nynorsk are read out, e.g.
+for text-to-speech systems.
+
+For example:
+
+ * s.:syntynyt # ;  
+ * os.:omaa% sukua # ;  
+ * v.:vuosi # ;  
+ * v.:vuonna # ;  
+ * esim.:esimerkki # ; 
+ * esim.:esimerkiksi # ; 
+
+
+* * *
+<small>This (part of) documentation was generated from [../src/transcriptions/transcriptor-abbrevs2text.lexc](http://github.com/giellalt/lang-nno/blob/main/../src/transcriptions/transcriptor-abbrevs2text.lexc)</small>
+
+
 
 
 
@@ -750,23 +767,6 @@ word classes, or optionally from prefixes:
 
 * * *
 <small>This (part of) documentation was generated from [../src/transcriptions/transcriptor-numbers-digit2text.lexc](http://github.com/giellalt/lang-nno/blob/main/../src/transcriptions/transcriptor-numbers-digit2text.lexc)</small>
-
-
-We describe here how abbreviations are in Norwegian Nynorsk are read out, e.g.
-for text-to-speech systems.
-
-For example:
-
- * s.:syntynyt # ;  
- * os.:omaa% sukua # ;  
- * v.:vuosi # ;  
- * v.:vuonna # ;  
- * esim.:esimerkki # ; 
- * esim.:esimerkiksi # ; 
-
-
-* * *
-<small>This (part of) documentation was generated from [../src/transcriptions/transcriptor-abbrevs2text.lexc](http://github.com/giellalt/lang-nno/blob/main/../src/transcriptions/transcriptor-abbrevs2text.lexc)</small>
 [ L A N G U A G E ]  G R A M M A R   C H E C K E R
 
 
