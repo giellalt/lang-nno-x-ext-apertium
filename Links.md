@@ -1,5 +1,6 @@
 * `src/`
     * `cg3/`
+        * [disambiguator.cg3](src-cg3-disambiguator.cg3.html) ([src](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/src/cg3/disambiguator.cg3))
         * [functions.cg3](src-cg3-functions.cg3.html) ([src](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/src/cg3/functions.cg3))
     * `fst/`
         * `affixes/`
