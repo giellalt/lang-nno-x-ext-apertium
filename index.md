@@ -3,7 +3,7 @@
 [![Maturity: Experiment](https://img.shields.io/badge/Maturity-Experiment-black.svg)](https://giellalt.github.io/MaturityClassification.html)
 [![License](https://img.shields.io/github/license/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/LICENSE)
 [![Issues](https://img.shields.io/github/issues/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/issues)
-[![Build status](https://github.com/giellalt/lang-nno-x-ext-apertium/workflows/Speller%20CI+CD/badge.svg)](https://github.com/giellalt/lang-nno-x-ext-apertium/actions)
+[![Build Status](https://divvun-tc.thetc.se/api/github/v1/repository/giellalt/lang-nno-x-ext-apertium/main/badge.svg)](https://github.com/giellalt/lang-nno-x-ext-apertium/actions)
 
 This page documents the work on the **Norwegian Nynorsk language model** from Apertium.
 
