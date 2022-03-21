@@ -109,14 +109,10 @@ lexicon-tags.relabel: lexicon-tags.txt
 #		| sed '$$ s/,/;/' \
 #		> $@
 
-# It seems that Apertium (or Hfst?) is producing a small, random fst + the real fst
-# We need to get rid of that small fst to continue with the real stuff.
-# NB! This might not be a correct observation, and it must be checked with f.ex. Kevin
+# Relabel analyser tags from Apertium style to GiellaLT style:
 lexicon.hfst: lexicon.tmp.hfst lexicon-tags.relabel
-	$(AM_V_HSPLIT)$(HFST_SPLIT) -p LEX_PARTS $<
 	$(AM_V_HSUBST)$(HFST_SUBSTITUTE) $(MORE_VERBOSITY) $(HFSTFLAGS) \
-		-i LEX_PARTS2.hfst --from-file=lexicon-tags.relabel -o $@
-	$(AM_V_at)rm -f LEX_PARTS*
+		-i $< --from-file=lexicon-tags.relabel -o $@
 
 #lexicon.hfst lexicon.foma: \
 #lexicon.%: lexicon.tmp.% lexicon-relabel.%
