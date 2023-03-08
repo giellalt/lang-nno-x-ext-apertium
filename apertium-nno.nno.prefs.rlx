@@ -1,0 +1,331 @@
+# -*- cg-pre-pipe: "lt-proc -N1 nno.automorf.bin|sed 's,\\^[^/]*/,^,g' | lt-proc -b nno_e_vi.autogen.bin"; cg-command: "cg-proc"; cg-extra-args: "-t -g -n -z apertium-nno.nno.prefs.rlx # " -*-
+# GPL-2+
+#
+# Generator dictionary preference rules.
+#
+# We expect stream variables to set or remove variables with naming
+# scheme "VAR:default_override", where "override" is chosen if set,
+# otherwise "default" is chosen. For any "default", there may be
+# multiple possible "override"''s.
+#
+# Lemma-specific and exceptional rules are in the beginning of this
+# file, simple rules towards the end.
+
+DELIMITERS = ".";
+
+########################
+# Unusual rules first: #
+########################
+
+# Kløyvd Infinitiv
+#
+# Handled in prefs.rlx instead of .dix since it's a specific set of words that partially override infa_infe:
+LIST kløyvd_a = "age" "ake" "ale" "ane" "ape" "ase" "bake" "bale" "bane" "base" "bede" "belje" "bere" "betale" "beve" "bevare" "blade" "blike" "bode" "bore" "bose" "brage" "brake" "brase" "byrje" "dage" "dale" "dane" "delje" "dette" "drage" "drepe" "drynje" "drysje" "dune" "dvelje" "dynje" "dølje" "ete" "eve" "fare" "fate" "ferje" "flage" "flare" "flasse" "flase" "flate" "flòte" "flysje" "flytte" "fole" "frede" "frege" "fremje" "frode" "gage" "gale" "gane" "gape" "gilje" "gjere" "gjete" "gidde" "gjeve" "glade" "glane" "glede" "glume" "gnage" "gnike" "gove" "grave" "gremje" "grope" "grune" "grysje" "gule" "gysje" "hage" "hake" "hame" "hate" "have" "hele" "hemje" "herje" "hesje" "hete" "hevje" "hjale" "hòle" "homme" "home" "hòpe" "hylje" "hysje" "hølje" "jage" "kake" "kare" "kave" "kjase" "kjee" "klage" "klake" "klede" "kløvje" "knake" "knase" "knise" "knode" "kole" "komme" "kome" "krake" "krase" "krave" "kreke" "krevje" "krite" "krote" "kunne" "kvede" "kvetje" "kvike" "kvime" "lade" "lage" "lape" "late" "lave" "lede" "lee" "leke" "lemme" "leme" "lemje" "lepje" "lese" "léte" "lete" "love" "lute" "make" "male" "mane" "mase" "mate" "mede" "moke" "mole" "mone" "møkje" "nase" "nave" "neve" "olboge" "pare" "pele" "pese" "pose" "prate" "rage" "rake" "rane" "rape" "rase" "reke" "remje" "reve" "rode" "rydje" "rysje" "sage" "sake" "same" "sede" "seie" "sele" "selje" "semje" "setja/sette" "sitja/sitte" "skade" "skake" "skale" "skape" "skare" "skave" "skilje" "skipe" "skjage" "sjage" "skjene" "skjere" "skjønne" "skjøne" "skode" "skòle" "skòre" "skote" "skrape" "skrate" "skreve" "skulle" "skule" "skvale" "skylje" "slave" "sleve" "smake" "smale" "smørje" "snake" "snare" "snase" "sove" "spade" "spare" "spekje" "spele" "spore" "sprake" "sprale" "spørje" "spøte" "stage" "stake" "stave" "stede" "stege" "stele" "stote" "streka " "strete" "streve" "stynje" "styrje" "svade" "svage" "svale" "svare" "svemje" "sverje" "svipe" "symje" "take" "tale" "tane" "tape" "tase" "teie" "tele" "telje" "temje" "tenje" "tevje" "timje" "tole" "tore" "tose" "trede" "trege" "trote" "tvike" "tvoge" "tysje" "umake" "une" "uvete" "uvite" "vade" "vake" "vare" "vase" "vege" "velje" "venje" "vere" "verje" "vete" "veve" "vevje" "vilje" "vime" "vite" "vrake" "ylje" "yrje" "ølje" "åtvare" ;
+
+# For v:kløyvd_inf, we only select e-inf if it's *not* part of the kløyvd_a set:
+SELECT (v:infa_infe) IF (0 (VAR:kløyvd_inf)) (NEGATE 0 kløyvd_a) ;
+
+SELECT (v:infa_infe) IF (0 (VAR:infa_infe)) ;
+REMOVE (v:infa_infe) ;
+
+
+# Open Lemma Slots
+#
+# Preferences with open slots for lemmas start with an underscore.
+#
+# If you set AP_SETVAR="brukte_bruka.vb-e2a" you should get 
+# e-inflection (-er–-te/-de/-dde) → -a-inflection (-ar–-a)
+# for all the forms that have that tag, but if you instead set 
+# AP_SETVAR="brukte_bruka.vb-e2a=bruke:rope:sile", then you only get a-inflection
+# for those specific lemmas.
+#
+# AP_SETVAR="håpa_håpte.vb-e2a" does the same thing in the opposite direction,
+# a-inflection → e-inflection.
+#
+# AP_SETVAR="er_ar.vb-e2a" handles optional mixed inflection:
+# bruke – brukar – brukte – brukt.
+#
+# NB. Rules match lemmas on "<wordforms>" – since this is input to
+# generator, wordforms/lemmas are backwards.
+#
+# Dirty one-liner to find all lemmas that can use a certain var-tag:
+# $ grep -Ff <(awk '/<pardef /{p=$0}/<\/pardef/{p=""}/:_er_ar.vb-e2a/&&p{print p}' apertium-nno.nno.dix |sort -u|sed 's, c=.*,,'|grep -v ':_er_ar.vb-e2a' |sed 's,def,,' ) apertium-nno.nno.dix |grep -o 'lm="[^"]*"'|sed 's,^lm=,,'
+#
+# The #.* entry is to allow multiwords, e.g. AP_SETVAR="er_ar.vb-e2a=lene"
+# should also affect "lene seg".
+
+LIST brukte_bruka_vbs = "<.*(bruke|ane|bake|betale|breke|dreie|dynge|eine|glane|hale|jule|klare|koke|kose|leie|like|mane|lure|rope|sile|skape|skjønne|slipe|sløre|spele|stråle|svare|tale|tvile)>"r ;
+LIST brukte_bruka_adjs = "<.*(bruk|bak|betal|klar|kok|lur|rop|sil|slip|spar|spel|svar|tal|tvil)t>"r ; # doesn't include final -t in $1
+LIST brukte_bruka_adjs2 = "<.*(drei|lei)dd>"r ; # doesn't include final -dd in $1
+LIST brukte_bruka_adjs3 = "<.*(dyng)d>"r ;  # doesn't include final -d in $1
+SELECT:compounds (v:brukte_bruka.vb-e2a) + brukte_bruka_vbs  IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1\\b/r)) ;
+SELECT:adjs      (v:brukte_bruka.vb-e2a) + brukte_bruka_adjs IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1e\\b/r)) ; # add final -e
+SELECT:adjs2     (v:brukte_bruka.vb-e2a) + brukte_bruka_adjs2 IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1e\\b/r)) ; # add final -e
+SELECT:adjs3     (v:brukte_bruka.vb-e2a) + brukte_bruka_adjs3 IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1e\\b/r)) ; # add final -e
+SELECT:lm_filter (v:brukte_bruka.vb-e2a "<(.+)>"r)     IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1\\b/r)) ;
+SELECT:mw_filter (v:brukte_bruka.vb-e2a "<(.+)#.*>"r)  IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1\\b/r)) ;
+SELECT:no_filter (v:brukte_bruka.vb-e2a)               IF (0      (VAR:brukte_bruka.vb-e2a=*)) ;
+REMOVE:unset     (v:brukte_bruka.vb-e2a) ;
+
+LIST håpa_håpte_vbs = "<.*(ape|beite|brøyte|drøfte|ense|feile|feste|flytte|gifte|helse|håpe|lade|leike|leite|love|løfte|meie|miste|peike|prise|rose|skifte|skjerpe|sprelle|streve|sveise|trene)>"r ;
+LIST håpa_håpte_adjs = "<.*(ap|beit|brøyt|drøft|fest|flytt|gift|lad|lov|peik|skift|sveis|tren)a>"r ; # doesn't include final -a in $1
+SELECT:compounds (v:håpa_håpte.vb-e2a) + håpa_håpte_vbs  IF (0 (VSTR:VAR:håpa_håpte.vb-e2a=/\\b$1\\b/r)) ;
+SELECT:adjs      (v:håpa_håpte.vb-e2a) + håpa_håpte_adjs IF (0 (VSTR:VAR:håpa_håpte.vb-e2a=/\\b$1e\\b/r)) ; # add final -e
+SELECT:lm_filter (v:håpa_håpte.vb-e2a "<(.+)>"r)     IF (0 (VSTR:VAR:håpa_håpte.vb-e2a=/\\b$1\\b/r)) ;
+SELECT:mw_filter (v:håpa_håpte.vb-e2a "<(.+)#.*>"r)  IF (0 (VSTR:VAR:håpa_håpte.vb-e2a=/\\b$1\\b/r)) ;
+SELECT:no_filter (v:håpa_håpte.vb-e2a)               IF (0      (VAR:håpa_håpte.vb-e2a=*)) ;
+REMOVE:unset     (v:håpa_håpte.vb-e2a) ;
+
+# The rest are quite straightforward:
+
+SELECT (v:er_ar.vb-e2a)                IF (0 (VAR:er_ar.vb-e2a)) ;
+REMOVE (v:er_ar.vb-e2a) ;
+
+SELECT (v:tenkje-leggje.kons-kj2k_gj2g)        IF (0 (VAR:tenkje-leggje.kons-kj2k_gj2g)) ;
+REMOVE (v:tenkje-leggje.kons-kj2k_gj2g) ;
+
+SELECT (v:enkje_enke.kons-kj2k_gj2g)        IF (0 (VAR:enkje_enke.kons-kj2k_gj2g)) ;
+REMOVE (v:enkje_enke.kons-kj2k_gj2g) ;
+
+SELECT (v:følgje_følge.kons-lgj2lg)        IF (0 (VAR:følgje_følge.kons-lgj2lg)) ;
+REMOVE (v:følgje_følge.kons-lgj2lg) ;
+
+SELECT (v:følgje_fylgje.vok-ø_gj2y_gj)        IF (0 (VAR:følgje_fylgje.vok-ø_gj2y_gj)) ;
+REMOVE (v:følgje_fylgje.vok-ø_gj2y_gj) ;
+
+SELECT (v:kjende_kjente.vb-d2t)        IF (0 (VAR:kjende_kjente.vb-d2t)) ;
+REMOVE (v:kjende_kjente.vb-d2t) ;
+
+SELECT (v:bygd_bygt.vb-d2t)        IF (0 (VAR:bygd_bygt.vb-d2t)) ;
+REMOVE (v:bygd_bygt.vb-d2t) ;
+
+SELECT (v:de_dokker)   IF (0 (VAR:de_dokker)) ;
+REMOVE (v:de_dokker) ;
+
+SELECT (v:medan_mens)  IF (0 (VAR:medan_mens)) ;
+REMOVE (v:medan_mens) ;
+
+SELECT (v:me_vi) IF (0 (VAR:me_vi)) ;
+REMOVE (v:me_vi) ;
+
+SELECT (v:stader_stadar.s-pl-e2a) IF (0 (VAR:stader_stadar.s-pl-e2a)) ;
+REMOVE (v:stader_stadar.s-pl-e2a) ;
+
+SELECT (v:elvar_elver.s-pl-e2a) IF (0 (VAR:elvar_elver.s-pl-e2a)) ;
+REMOVE (v:elvar_elver.s-pl-e2a) ;
+
+SELECT (v:tek_tar.vb-en2tt) IF (0 (VAR:tek_tar.vb-en2tt)) ;
+REMOVE (v:tek_tar.vb-en2tt) ;
+
+SELECT (v:dreg_drar.vb-en2tt) IF (0 (VAR:dreg_drar.vb-en2tt)) ;
+REMOVE (v:dreg_drar.vb-en2tt) ;
+
+SELECT (v:dratt_dradd.vb-en2tt) IF (0 (VAR:dratt_dradd.vb-en2tt)) ;
+REMOVE (v:dratt_dradd.vb-en2tt) ;
+
+SELECT (v:gir_gjev.vb-en2tt) IF (0 (VAR:gir_gjev.vb-en2tt)) ;
+REMOVE (v:gir_gjev.vb-en2tt) ;
+
+SELECT (v:eigde_åtte) IF (0 (VAR:eigde_åtte)) ;
+REMOVE (v:eigde_åtte) ;
+
+SELECT (v:venne_venje) IF (0 (VAR:venne_venje)) ;
+REMOVE (v:venne_venje) ;
+
+SELECT (v:vart-vorte_blei-blitt.verb-bli2verte) IF (0 (VAR:vart-vorte_blei-blitt.verb-bli2verte)) ;
+REMOVE (v:vart-vorte_blei-blitt.verb-bli2verte) ;
+
+SELECT (v:vart-vorte_vart-blitt.verb-bli2verte) IF (0 (VAR:vart-vorte_vart-blitt.verb-bli2verte)) ;
+REMOVE (v:vart-vorte_vart-blitt.verb-bli2verte) ;
+
+SELECT (v:bli_verte.verb-bli2verte) IF (0 (VAR:bli_verte.verb-bli2verte)) ;
+REMOVE (v:bli_verte.verb-bli2verte) ;
+
+SELECT (v:vit_vett) IF (0 (VAR:vit_vett)) ;
+REMOVE (v:vit_vett) ;
+
+SELECT (v:voks_vaks.vok-o2a) IF (0 (VAR:voks_vaks.vok-o2a)) ;
+REMOVE (v:voks_vaks.vok-o2a) ;
+
+SELECT (v:barna_borna.vok-o2a) IF (0 (VAR:barna_borna.vok-o2a)) ;
+REMOVE (v:barna_borna.vok-o2a) ;
+
+SELECT (v:maske_moske.vok-o2a) IF (0 (VAR:maske_moske.vok-o2a)) ;
+REMOVE (v:maske_moske.vok-o2a) ;
+
+SELECT (v:oske_aske.vok-o2a) IF (0 (VAR:oske_aske.vok-o2a)) ;
+REMOVE (v:oske_aske.vok-o2a) ;
+
+SELECT (v:mengd_mengde.vok-2e) IF (0 (VAR:mengd_mengde.vok-2e)) ;
+REMOVE (v:mengd_mengde.vok-2e) ;
+
+SELECT (v:blå_blåe) IF (0 (VAR:blå_blåe)) ;
+REMOVE (v:blå_blåe) ;
+
+SELECT (v:lét_let) IF (0 (VAR:lét_let)) ;
+REMOVE (v:lét_let) ;
+
+SELECT (v:blæs_blåser) IF (0 (VAR:blæs_blåser)) ;
+REMOVE (v:blæs_blåser) ;
+
+SELECT (v:kors_kross) IF (0 (VAR:kors_kross)) ;
+REMOVE (v:kors_kross) ;
+
+SELECT (v:nærare_nærmare.stav) IF (0 (VAR:nærare_nærmare.stav)) ;
+REMOVE (v:nærare_nærmare.stav) ;
+
+SELECT (v:eigentleg_eigenleg.stav) IF (0 (VAR:eigentleg_eigenleg.stav)) ;
+REMOVE (v:eigentleg_eigenleg.stav) ;
+
+SELECT (v:styresmakt_styremakt.stav) IF (0 (VAR:styresmakt_styremakt.stav)) ;
+REMOVE (v:styresmakt_styremakt.stav) ;
+
+SELECT (v:true_truge.stav) IF (0 (VAR:true_truge.stav)) ;
+REMOVE (v:true_truge.stav) ;
+
+SELECT (v:symje_svømme.stav) IF (0 (VAR:symje_svømme.stav)) ;
+REMOVE (v:symje_svømme.stav) ;
+
+SELECT (v:døgn_døger.stav) IF (0 (VAR:døgn_døger.stav)) ;
+REMOVE (v:døgn_døger.stav) ;
+
+SELECT (v:augne_auge.stav) IF (0 (VAR:augne_auge.stav)) ;
+REMOVE (v:augne_auge.stav) ;
+
+SELECT (v:skule_skole.vok-u2o) IF (0 (VAR:skule_skole.vok-u2o)) ;
+REMOVE (v:skule_skole.vok-u2o) ;
+
+SELECT (v:skolere_skulere.vok-u2o) IF (0 (VAR:skolere_skulere.vok-u2o)) ;
+REMOVE (v:skolere_skulere.vok-u2o) ;
+
+SELECT (v:jul_jol.vok-u2o) IF (0 (VAR:jul_jol.vok-u2o)) ;
+REMOVE (v:jul_jol.vok-u2o) ;
+
+SELECT (v:sommar_sumar.vok-o2u) IF (0 (VAR:sommar_sumar.vok-o2u)) ;
+REMOVE (v:sommar_sumar.vok-o2u) ;
+
+SELECT (v:stove_stue.vok-u2o) IF (0 (VAR:stove_stue.vok-u2o)) ;
+REMOVE (v:stove_stue.vok-u2o) ;
+
+SELECT (v:høvding_hovding.vok-ø2o) IF (0 (VAR:høvding_hovding.vok-ø2o)) ;
+REMOVE (v:høvding_hovding.vok-ø2o) ;
+
+SELECT (v:då_da.vok-a2å) IF (0 (VAR:då_da.vok-a2å)) ;
+REMOVE (v:då_da.vok-a2å) ;
+
+SELECT (v:åleine_aleine.vok-a2å) IF (0 (VAR:åleine_aleine.vok-a2å)) ;
+REMOVE (v:åleine_aleine.vok-a2å) ;
+
+SELECT (v:allmenn_ålmenn.vok-a2å) IF (0 (VAR:allmenn_ålmenn.vok-a2å)) ;
+REMOVE (v:allmenn_ålmenn.vok-a2å) ;
+
+SELECT (v:no_nå.vok-o2å) IF (0 (VAR:no_nå.vok-o2å)) ;
+REMOVE (v:no_nå.vok-o2å) ;
+
+SELECT (v:så_so.vok-o2å) IF (0 (VAR:så_so.vok-o2å)) ;
+REMOVE (v:så_so.vok-o2å) ;
+
+SELECT (v:først_fyrst.vok-ø2y) IF (0 (VAR:først_fyrst.vok-ø2y)) ;
+REMOVE (v:først_fyrst.vok-ø2y) ;
+
+SELECT (v:søndag_sundag.vok-ø2u) IF (0 (VAR:søndag_sundag.vok-ø2u)) ;
+REMOVE (v:søndag_sundag.vok-ø2u) ;
+
+SELECT (v:lykke_lukke.vok-y2u) IF (0 (VAR:lykke_lukke.vok-y2u)) ;
+REMOVE (v:lykke_lukke.vok-y2u) ;
+
+SELECT (v:fjøre_fjære.vok-ø2æ) IF (0 (VAR:fjøre_fjære.vok-ø2æ)) ;
+REMOVE (v:fjøre_fjære.vok-ø2æ) ;
+
+SELECT (v:venn_ven.kons-mm2m) IF (0 (VAR:venn_ven.kons-mm2m)) ;
+REMOVE (v:venn_ven.kons-mm2m) ;
+
+SELECT (v:komme_kome.kons-mm2m) IF (0 (VAR:komme_kome.kons-mm2m)) ;
+REMOVE (v:komme_kome.kons-mm2m) ;
+
+SELECT (v:kjøtt_kjøt.kons-mm2m) IF (0 (VAR:kjøtt_kjøt.kons-mm2m)) ;
+REMOVE (v:kjøtt_kjøt.kons-mm2m) ;
+
+SELECT (v:dommen_domen.kons-mm2m) IF (0 (VAR:dommen_domen.kons-mm2m)) ;
+REMOVE (v:dommen_domen.kons-mm2m) ;
+
+SELECT (v:mogleg_mogeleg.vok-2e) IF (0 (VAR:mogleg_mogeleg.vok-2e)) ;
+REMOVE (v:mogleg_mogeleg.vok-2e) ;
+
+SELECT (v:eigentleg_eigenleg.stav) IF (0 (VAR:eigentleg_eigenleg.stav)) ;
+REMOVE (v:eigentleg_eigenleg.stav) ;
+
+SELECT (v:dess-der_di.afx) IF (0 (VAR:dess-der_di.afx)) ;
+REMOVE (v:dess-der_di.afx) ;
+
+SELECT (v:fly_flyge.vb-inf) IF (0 (VAR:fly_flyge.vb-inf)) ;
+REMOVE (v:fly_flyge.vb-inf) ;
+
+SELECT (v:flyg_flyr.vb-inf) IF (0 (VAR:flyg_flyr.vb-inf)) ;
+REMOVE (v:flyg_flyr.vb-inf) ;
+
+SELECT (v:gle_glede.vb-inf) IF (0 (VAR:gle_glede.vb-inf)) ;
+REMOVE (v:gle_glede.vb-inf) ;
+
+SELECT (v:lide_li.vb-inf) IF (0 (VAR:lide_li.vb-inf)) ;
+REMOVE (v:lide_li.vb-inf) ;
+
+SELECT (v:jern_jarn.vok-a2e) IF (0 (VAR:jern_jarn.vok-a2e)) ;
+REMOVE (v:jern_jarn.vok-a2e) ;
+
+SELECT (v:kvalp_kvelp.vok-a2e) IF (0 (VAR:kvalp_kvelp.vok-a2e)) ;
+REMOVE (v:kvalp_kvelp.vok-a2e) ;
+
+SELECT (v:anten_enten.vok-a2e) IF (0 (VAR:anten_enten.vok-a2e)) ;
+REMOVE (v:anten_enten.vok-a2e) ;
+
+SELECT (v:aftan_eftan.vok-a2e) IF (0 (VAR:aftan_eftan.vok-a2e)) ;
+REMOVE (v:aftan_eftan.vok-a2e) ;
+
+SELECT (v:alter_altar.vok-a2e) IF (0 (VAR:alter_altar.vok-a2e)) ;
+REMOVE (v:alter_altar.vok-a2e) ;
+
+SELECT (v:spenn_span.vok-a2e) IF (0 (VAR:spenn_span.vok-a2e)) ;
+REMOVE (v:spenn_span.vok-a2e) ;
+
+SELECT (v:drikk_drykk.vok-i2y) IF (0 (VAR:drikk_drykk.vok-i2y)) ;
+REMOVE (v:drikk_drykk.vok-i2y) ;
+
+SELECT (v:segle_sigle.vok-e2i) IF (0 (VAR:segle_sigle.vok-e2i)) ;
+REMOVE (v:segle_sigle.vok-e2i) ;
+
+SELECT (v:lys_ljos.vok-y2jo) IF (0 (VAR:lys_ljos.vok-y2jo)) ;
+REMOVE (v:lys_ljos.vok-y2jo) ;
+
+SELECT (v:nød_naud.dift-ø2au) IF (0 (VAR:nød_naud.dift-ø2au)) ;
+REMOVE (v:nød_naud.dift-ø2au) ;
+
+SELECT (v:dødeleg_døyeleg.dift-ø2øy) IF (0 (VAR:dødeleg_døyeleg.dift-ø2øy)) ;
+REMOVE (v:dødeleg_døyeleg.dift-ø2øy) ;
+
+SELECT (v:pek_peik.dift-e2ei) IF (0 (VAR:pek_peik.dift-e2ei)) ;
+REMOVE (v:pek_peik.dift-e2ei) ;
+
+SELECT (v:setje_sette.kons-tj2tt) IF (0 (VAR:setje_sette.kons-tj2tt)) ;
+REMOVE (v:setje_sette.kons-tj2tt) ;
+
+SELECT (v:fremje_fremme.kons-mj2mm) IF (0 (VAR:fremje_fremme.kons-mj2mm)) ;
+REMOVE (v:fremje_fremme.kons-mj2mm) ;
+
+SELECT (v:hemme_hemje.kons-mm2mj) IF (0 (VAR:hemme_hemje.kons-mm2mj)) ;
+REMOVE (v:hemme_hemje.kons-mm2mj) ;
+
+SELECT (v:gremme_gremje.kons-mm2mj) IF (0 (VAR:gremme_gremje.kons-mm2mj)) ;
+REMOVE (v:gremme_gremje.kons-mm2mj) ;
+
+SELECT (v:formål_føremål.afx-fore2føre) IF (0 (VAR:formål_føremål.afx-fore2føre)) ;
+REMOVE (v:formål_føremål.afx-fore2føre) ;
+
+SELECT (v:forvaltning_forvalting.afx-ning2ing) IF (0 (VAR:forvaltning_forvalting.afx-ning2ing)) ;
+REMOVE (v:forvaltning_forvalting.afx-ning2ing) ;
+
+# Possible input:
+# ^byggeleiing<n><f><sg><def>/b<v:ggj_gg>yggeleiinga/byggjeleiinga$ ^vere<vblex><pres>/er$ […]
+
+# For cg-format output, asf input:
+# (setq cg-pre-pipe "cat" cg-command "cg-proc" cg-extra-args "-t -z " cg-post-pipe "cg-conv --out-cg --in-apertium")

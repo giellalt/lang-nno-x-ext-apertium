@@ -20,6 +20,7 @@ LIST nt = nt ;
 LIST f = f ;
 LIST m = m ;
 LIST n = n ;
+LIST np = np ;
 LIST pl = pl ;
 LIST sg = sg ;
 LIST sp = sp ;
@@ -27,6 +28,7 @@ LIST sp = sp ;
 # LIST pos = pos ;
 LIST guess = guess ;
 LIST cmp = cmp ;
+LIST cmp-split = cmp-split ;
 LIST pret = pret ;
 LIST pp = pp ;
 
@@ -784,6 +786,8 @@ LIST veldig-farlege-verb = ("børse"  pret) ("slute"  pret) ("hå"  pres) ("stie
 LIST verb = vblex ;
 LIST verb-u-imp = (vblex pres) (vblex pret) (vblex pp) (vblex inf) ;
 
+LIST adjn = "militær" "fornærma" "sikta" "sivil" "tiltalt" "tilsett" "etterlaten" "nytilsett" "kjend" "hovudtiltalt" "sakkunnig" "alliert" "lærd" "skriftlærd" "innsett" "medtiltalt" "avdød" ;
+
 # sec 0: MWE / particle verbs TODO!
 CONSTRAINTS
 SELECT:over_30._Men clb IF
@@ -792,6 +796,28 @@ SELECT:over_30._Men clb IF
         # TODO: why can't I say >1?
 ;
 
+
+# Prefer nouns in compounds:
+REMOVE:prefer-ncmp adj IF
+        (0 n)
+        (0/1 cmp)
+        (NOT 0 adjn)            # «Den spiontiltalte nordmannen ber …»
+        ;
+# TODO: Probably too conservative
+
+REMOVE:prefer-ncmp SUB:* vblex + cmp IF
+        (0 n)
+        ;
+REMOVE:prefer-ncmp-split vblex + cmp-split ;
+
+REMOVE:prefer-sg-ind-cmp-split adj + cmp-split + pl;
+REMOVE:prefer-sg-ind-cmp-split adj + cmp-split + nt;
+REMOVE:prefer-sg-ind-cmp-split adj + cmp-split + def;
+# Avoid «pope- og filmstjerner», «heilagt- og høgtidsdagar»
+# TODO: do we ever want pl/nt/def in cmp-split when we can have ind.sg.mf?
+
+
+
 SELECT ("å" sep) IF (*-1 (vblex sep)) ;
 SELECT (vblex sep) IF (*1 ("å" sep)) ;
 
@@ -799,6 +825,15 @@ SELECT (vblex sep) IF (*1 ("å" sep)) ;
 "<LES>" SELECT (vblex imp);
 "<Les>" SELECT (vblex imp);
 "<les>" SELECT (vblex imp);
+
+REMOVE:unlikely ("velte") IF (0 ("velje"));
+REMOVE:unlikely ("auk");
+REMOVE:unlikely ("íð") ;
+REMOVE:unlikely ("tilsjå");
+REMOVE:unlikely ("eie") + vblex;
+
+REMOVE:unlikely ("åre") IF (0 ("år"));
+REMOVE:unlikely ("live") IF (0 ("liv"));
 
 
 #Predikativ eller perfpart i nynorsk:
@@ -809,12 +844,16 @@ SELECT (vblex sep) IF (*1 ("å" sep)) ;
 
 REMOVE:unlikely ("allé" "<alle>"ri);
 REMOVE:unlikely ("orde" "<orda>"ri);
+REMOVE:unlikely ("teppe" f);
+REMOVE:unlikely ("dikt") + adv;
+REMOVE:unlikely ("Berre") + np;
+REMOVE:unlikely SUB:* ("mjølke") IF (0/* ("mjølk")); # sannsynlegvis ikkje rogn
 
 # sec 1
 CONSTRAINTS
 ## select domain
 #:5018
-"<*i>" SELECT:5018 (pr) IF
+"<i>" SELECT:5018 (pr) IF
 	(-1 >>>)
 ;
 
@@ -1035,6 +1074,7 @@ CONSTRAINTS
  "<bare>"   SELECT:4970   (adv) IF
 	(1 inf)
 ;
+
 
 
 #:4964
@@ -1699,6 +1739,7 @@ CONSTRAINTS
 ;
 
 
+
 #:4815
  "<forbanna>"   SELECT:4815   (adj pst ind) IF
 	(1 %på%)
@@ -1994,7 +2035,6 @@ CONSTRAINTS
 #hurra! (men ikke "et rungende hurra")
 
 
-
 #:4732
  "<ille>"   SELECT:4732   (adv) IF
 	(0 adj)
@@ -2004,6 +2044,10 @@ SELECT ("ikon") + subst-nøyt IF
 	(0C subst)
 ;
 
+SELECT:ingen-andre ("ingen") + pl IF
+        (1C pl)
+        (1C nr2-det OR adj OR subst)
+        ;
 
 
 #:4731
@@ -3635,6 +3679,9 @@ SELECT ("ikon") + subst-nøyt IF
 	(-1 %gå/springe%-osv)
 ;
 
+"<stadium>" SELECT:Millennium-stadium sg IF
+        (-1 storbokstav)
+        ;
 
 #:4359
  "<stand>"   SELECT:4359   (n sg) IF
@@ -4050,6 +4097,11 @@ SELECT ("ikon") + subst-nøyt IF
 	(-2 %vere%)
 ;
 
+REMOVE:vik ("vik") + nt IF
+        (NEGATE -1 det + nt)
+        ;
+REMOVE:vik SUB:1 ("vik") + nt;
+REMOVE:vik SUB:2 ("vik") + nt;
 
 #:4290
  "<var>"   SELECT:4290   (adj pst mf) IF
@@ -4977,6 +5029,12 @@ REMOVE:mwe-verb-unlikely-adj ("<.* .*>"r adj pp); # e.g. «førte_til brannar» 
 ;
 
 
+"<for>" REMOVE:unlikely n IF
+        # corpus bigrams for «fôr»:
+	(NEGATE -1 ("og") OR ("til") OR ("som") OR ("nok"))
+	(NEGATE 1 ("for") OR ("til") OR ("i") OR ("fordi"))
+;
+
 #:4825
  "<for>"   REMOVE:4825   (vblex) IF
 	(-1 subst/pron)
@@ -5732,6 +5790,7 @@ REMOVE:mwe-verb-unlikely-adj ("<.* .*>"r adj pp); # e.g. «førte_til brannar» 
 	 (0 prep/adv)
 ;
 
+"<Nedre>" REMOVE vblex;
 
 #:6058
  "<nei>"   REMOVE:6058   (n nt appell pl def)
@@ -6670,6 +6729,8 @@ REMOVE:mwe-verb-unlikely-adj ("<.* .*>"r adj pp); # e.g. «førte_til brannar» 
 	   (0 adj)
 ;
 #mest sannsynlig adjektivet
+
+"<trygge>" REMOVE:default n;
 
 #:6124
  "<trøytte>"   REMOVE:6124   (n) IF
@@ -52922,3 +52983,5 @@ SELECT:nå-er-anlegget-gravminne $$NUMBER IF
 LIST målingpå = "hus" "vegg" "graffiti" "strek" "bilde" "bilete" ;
 SELECT ("måle¹") IF (1 målingpå) ;
 REMOVE ("måle¹") ;
+
+REMOVE:avoid-intet ("ingen") + nt ;
