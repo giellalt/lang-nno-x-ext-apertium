@@ -17,10 +17,35 @@
     </pipeline>
   </mode>
 
+  <mode name="nno-gener-prefs" install="yes">
+    <pipeline>
+      <program name="lt-proc -b">
+        <file name="nno.autogen.bin"/>
+      </program>
+      <program name="cg-proc -n -g -w">
+        <file name="nno.prefs.rlx.bin"/>
+      </program>
+    </pipeline>
+  </mode>
+
+  <mode name="nno-segment" install="yes">
+    <pipeline>
+      <program name="lt-proc -w -e">
+        <file name="nno.automorf.bin"/>
+      </program>
+      <program name="cg-proc">
+        <file name="nno.seg.rlx.bin"/>
+      </program>
+    </pipeline>
+  </mode>
+
   <mode name="nno-disam" install="yes">
     <pipeline>
       <program name="lt-proc -w -e">
         <file name="nno.automorf.bin"/>
+      </program>
+      <program name="cg-proc">
+        <file name="nno.seg.rlx.bin"/>
       </program>
       <program name="cg-proc -w">
         <file name="nno.rlx.bin"/>
@@ -45,6 +70,9 @@
       <program name="lt-proc -w -e">
         <file name="nno.automorf.bin"/>
       </program>
+      <program name="cg-proc">
+        <file name="nno.seg.rlx.bin"/>
+      </program>
       <program name="cg-proc -w">
         <file name="nno.rlx.bin"/>
       </program>
@@ -58,6 +86,9 @@
     <pipeline>
       <program name="lt-proc -w -e">
         <file name="nno.automorf.bin"/>
+      </program>
+      <program name="cg-proc">
+        <file name="nno.seg.rlx.bin"/>
       </program>
       <program name="cg-proc -w">
         <file name="nno.rlx.bin"/>
@@ -73,6 +104,9 @@
     <pipeline>
       <program name="lt-proc -w -e">
         <file name="nno.automorf.bin"/>
+      </program>
+      <program name="cg-proc">
+        <file name="nno.seg.rlx.bin"/>
       </program>
       <program name="cg-proc -w">
         <file name="nno.rlx.bin"/>

@@ -3,15 +3,17 @@
 ###############################################################################
 
 LANG1=nno
-LANG1e=nno_e
-LANG1a=nno_a
 BASENAME=apertium-$(LANG1)
 
 TARGETS_COMMON = $(LANG1).automorf.bin \
-	$(LANG1).autogen.bin $(LANG1e).autogen.bin \
+	$(LANG1).autogen.bin \
+	$(LANG1).autogen.att.gz \
 	$(LANG1).autopgen.bin \
-	$(LANG1).automorf.att.gz $(LANG1).autogen.att.gz \
+	$(LANG1).automorf.att.gz \
 	$(LANG1).rlx.bin \
+        $(LANG1).seg.rlx.bin                                \
+	$(LANG1).e_vi_prefs.rlx.bin \
+	$(LANG1).prefs.rlx.bin \
 	$(LANG1).syn.rlx.bin
 
 # This include defines goals for install-modes, .deps/.d and .mode files:
@@ -21,32 +23,16 @@ TARGETS_COMMON = $(LANG1).automorf.bin \
 ## Norwegian Nynorsk transducer
 ###############################################################################
 
-.deps/$(BASENAME).$(LANG1)-no-cp.dix: $(BASENAME).$(LANG1).dix rem-compounds.xsl .deps/.d
-	xsltproc rem-compounds.xsl $< > $@
-
 $(LANG1).autogen.bin: $(BASENAME).$(LANG1).dix
 	apertium-validate-dictionary $<
-	lt-comp --alt $(LANG1a) rl $< $@
-
-$(LANG1e).autogen.bin: $(BASENAME).$(LANG1).dix
-	apertium-validate-dictionary $<
-	test ! -f ./test-scandivoc || ./test-scandivoc
-	lt-comp --alt $(LANG1e) rl $< $@
+	lt-comp rl $< $@
 
 $(LANG1).automorf.bin: $(BASENAME).$(LANG1).dix $(BASENAME).$(LANG1).acx
 	apertium-validate-dictionary $<
 	apertium-validate-acx $(BASENAME).$(LANG1).acx
 	lt-comp lr $< $@ $(BASENAME).$(LANG1).acx
 
-$(LANG1).automorf-no-cp.bin: .deps/$(BASENAME).$(LANG1)-no-cp.dix $(BASENAME).$(LANG1).acx
-	apertium-validate-dictionary $<
-	apertium-validate-acx $(BASENAME).$(LANG1).acx
-	lt-comp lr $< $@ $(BASENAME).$(LANG1).acx
-
 $(LANG1).autogen.att.gz: $(LANG1).autogen.bin
-	lt-print $< | gzip -9 -c -n > $@
-
-$(LANG1e).autogen.att.gz: $(LANG1e).autogen.bin
 	lt-print $< | gzip -9 -c -n > $@
 
 $(LANG1).automorf.att.gz: $(LANG1).automorf.bin
@@ -56,24 +42,16 @@ $(LANG1).autopgen.bin: $(BASENAME).post-$(LANG1).dix
 	lt-comp lr $< $@
 
 ###############################################################################
-## Disambiguation rules
-###############################################################################
-
-$(LANG1).rlx.bin: $(BASENAME).$(LANG1).rlx
-	cg-comp $< $@
-
-$(LANG1).syn.rlx.bin: $(BASENAME).$(LANG1).syn.rlx
-	cg-comp $< $@
-
-###############################################################################
 ## Distribution
 ###############################################################################
 EXTRA_DIST=$(BASENAME).$(LANG1).dix \
            $(BASENAME).post-$(LANG1).dix \
 	   $(BASENAME).$(LANG1).rlx \
+	   $(BASENAME).$(LANG1).seg.rlx \
 	   $(BASENAME).$(LANG1).syn.rlx \
            $(LANG1).prob            \
 	   $(BASENAME).$(LANG1).tsx \
+	   $(LANG1).preferences.xml \
 	   modes.xml
 
 ###############################################################################
@@ -86,7 +64,14 @@ EXTRA_DIST=$(BASENAME).$(LANG1).dix \
 apertium_nnodir=$(prefix)/share/apertium/$(BASENAME)/
 apertium_nno_srcdir=$(prefix)/share/apertium/$(BASENAME)/
 
-apertium_nno_DATA=$(TARGETS_COMMON) $(LANG1).prob
+apertium_nno_DATA=$(TARGETS_COMMON) $(LANG1).prob \
+				  $(LANG1).preferences.xml \
+				  $(BASENAME).$(LANG1).dix \
+				  $(BASENAME).post-$(LANG1).dix \
+				  $(BASENAME).$(LANG1).rlx \
+				  $(BASENAME).$(LANG1).seg.rlx \
+				  $(BASENAME).$(LANG1).syn.rlx \
+				  $(BASENAME).$(LANG1).tsx
 
 pkgconfigdir = $(prefix)/share/pkgconfig
 pkgconfig_DATA = $(BASENAME).pc
@@ -94,12 +79,23 @@ pkgconfig_DATA = $(BASENAME).pc
 noinst_DATA=modes/$(LANG1)-morph.mode
 
 install-data-local: install-modes
-	test -d $(DESTDIR)$(apertium_nno_srcdir) || mkdir -p $(DESTDIR)$(apertium_nno_srcdir)
-	$(INSTALL_DATA) $(BASENAME).$(LANG1).dix $(DESTDIR)$(apertium_nno_srcdir)
-	$(INSTALL_DATA) $(BASENAME).$(LANG1).rlx $(DESTDIR)$(apertium_nno_srcdir)
-	$(INSTALL_DATA) $(BASENAME).$(LANG1).syn.rlx $(DESTDIR)$(apertium_nno_srcdir)
-	$(INSTALL_DATA) $(BASENAME).$(LANG1).tsx $(DESTDIR)$(apertium_nno_srcdir)
+uninstall-local: uninstall-modes
+
+###############################################################################
+## Cleanup
+###############################################################################
 
 CLEANFILES = $(TARGETS_COMMON)
 clean-local:
 	-rm -rf .deps modes
+
+###############################################################################
+## Test
+###############################################################################
+
+test: all
+	@grep -nE 'lm=".*/([a-zæøå]+)__' $(BASENAME).$(LANG1).dix \
+	    | grep -vE '<i?g/?>'                                  \
+	    | grep -vE  'lm="(.*)(.*)".*/\2__'                    \
+	    | sed 's%^%WARNING: lemma vs par/tail inconsistency on line %'
+	apertium-regtest test
