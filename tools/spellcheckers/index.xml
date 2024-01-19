@@ -2,7 +2,7 @@
 <hfstspeller dtdversion="1.0" hfstversion="3">
   <info>
     <locale>nn</locale>
-    <title>Giellatekno/Divvun/UiT fst-based speller for Norwegian Nynorsk</title>
+    <title>Norwegian Nynorsk</title>
     <description>This is an fst-based speller for Norwegian Nynorsk. It is based
     on the normative subset of the morphological analyser for Norwegian Nynorsk.
     The source code can be found at:
