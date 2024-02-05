@@ -1,5 +1,5 @@
-name = "Norwegian Nynorsk (Apertium)"
-version = "0.1.1"
+spellername = "Norwegian Nynorsk (Apertium)"
+spellerversion = "0.1.1"
 
 # Name of the speller package in various languages.
 # The default is English + autonym:
