@@ -29,7 +29,7 @@ endif
 ####### Morphology source file defs: ########
 
 # Set this to name of lexc file containing Multichar_Symbols and LEXICON Root
-GT_LEXC_ROOT=$(srcdir)/ext-Apertium-$(GLANG)/apertium-$(GLANG).$(GLANG).dix
+GT_LEXC_ROOT=
 
 # Set this to the names of all regular lexc source files:
 GT_LEXC_SRCS_L1_L2=affixes/symbols.lexc
@@ -109,21 +109,22 @@ $(srcdir)/ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz: $(GT_LEXC_ROOT) \
         $(srcdir)/ext-Apertium-$(GLANG)/configure
 	$(AM_V_GEN)cd $(dir $@ ) && $(MAKE) $(notdir $@ )
 
-lexicon.tmp.hfst: ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz
+.generated/lexicon.tmp.hfst: ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz \
+		$(GENDIR)
 	$(AM_V_TXT2FST)gunzip --stdout $< \
 		| sed -e "s/ /\'@_SPACE_@\'/g" \
 		| $(HFST_TXT2FST) $(MORE_VERBOSITY) $(HFST_FORMAT) --epsilon=ε \
 		| $(HFST_INVERT) $(MORE_VERBOSITY) \
 		-o $@
 
-lexicon-tags.txt: lexicon-sigma.txt
+.generated/lexicon-tags.txt: .generated/lexicon-sigma.txt
 	$(AM_V_GEN)grep '<.*>' $< > $@
 
 # To produce init uppercase tags, use this (the \u is the crucial part):
 # 		| perl -pe 's/^(.)/+\u$$1/'
 # But by leaving that out, the tags are actually directly compatible with the
 # CG disamb file, which is a huge boon, so we stick with that for now:
-lexicon-tags.relabel: lexicon-tags.txt
+.generated/lexicon-tags.relabel: .generated/lexicon-tags.txt
 	$(AM_V_GEN)sed -e 's/<//' -e 's/>//' $< \
 		| perl -pe 's/^(.)/+$$1/' \
 		| paste $< - > $@
@@ -138,7 +139,7 @@ lexicon-tags.relabel: lexicon-tags.txt
 #		> $@
 
 # Relabel analyser tags from Apertium style to GiellaLT style:
-lexicon.hfst: lexicon.tmp.hfst lexicon-tags.relabel
+lexicon.hfst: .generated/lexicon.tmp.hfst .generated/lexicon-tags.relabel
 	$(AM_V_HSUBST)$(HFST_SUBSTITUTE) $(MORE_VERBOSITY) $(HFSTFLAGS) \
 		-i $< --from-file=lexicon-tags.relabel -o $@
 

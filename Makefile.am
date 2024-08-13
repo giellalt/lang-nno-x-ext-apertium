@@ -21,7 +21,7 @@ banner:
 test: check
 
 update:
-	git subtree pull --prefix src/fst/ext-Apertium-nno https://github.com/apertium/apertium-nno.git master --squash
+	git subtree pull --prefix src/fst/morphology/ext-Apertium-nno https://github.com/apertium/apertium-nno.git master --squash
 
 # recurse all make devs just
 dev:
