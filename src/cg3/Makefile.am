@@ -29,7 +29,7 @@ endif # WANT_SYNTAX
 #### Add language-specific build rules here: ####
 
 disambiguator.cg3: \
-$(top_srcdir)/src/fst/ext-Apertium-$(GLANG)/apertium-$(GLANG).$(GLANG).syn.rlx
+$(top_srcdir)/src/fst/morphology/ext-Apertium-$(GLANG)/apertium-$(GLANG).$(GLANG).syn.rlx
 	$(AM_V_CP)cp -f $< $@
 
 ##################################################################
