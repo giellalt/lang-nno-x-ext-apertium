@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary>
+  <alphabet/>
+  <sdefs>
+    <sdef n="n" c="Noun"/>
+  </sdefs>
+
+  <pardefs>
+    <pardef n="letter">
+      <e><re>[abcdefghijklmnopqrstuvwxyzæøåcqwxzcqwxzéèêóòâôéêèóôòâáàáàääööššččðđðýýññüüííıi̇ëë]</re></e>
+    </pardef>
+  </pardefs>
+
+  <section id="main" type="standard">
+    <!-- Correct flyplassstyresmaktene → flyplasstyresmaktene -->
+    <e><par n="letter"/> <p><l>bbb</l><r>bb</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>ccc</l><r>cc</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>ddd</l><r>dd</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>fff</l><r>ff</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>ggg</l><r>gg</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>hhh</l><r>hh</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>jjj</l><r>jj</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>kkk</l><r>kk</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>lll</l><r>ll</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>mmm</l><r>mm</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>nnn</l><r>nn</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>ppp</l><r>pp</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>qqq</l><r>qq</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>rrr</l><r>rr</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>sss</l><r>ss</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>ttt</l><r>tt</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>vvv</l><r>vv</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>www</l><r>ww</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>xxx</l><r>xx</r></p> <par n="letter"/></e>
+    <e><par n="letter"/> <p><l>zzz</l><r>zz</r></p> <par n="letter"/></e>
+  </section>
+</dictionary>
