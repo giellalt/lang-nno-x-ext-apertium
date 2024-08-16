@@ -1,7 +1,0 @@
-prefix=@prefix@
-exec_prefix=${prefix}
-srcdir=@datarootdir@/apertium/apertium-nno
-
-Name: apertium-nno
-Description: Finite-state morphological transducer and constraint grammar for Norwegian Nynorsk
-Version: @VERSION@
