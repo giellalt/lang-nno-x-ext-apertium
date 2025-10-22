@@ -4,7 +4,8 @@
 ![Lemma count](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgiellalt%2Flang-nno-x-ext-apertium%2Fgh-pages%2Flemmacount.json)
 [![License](https://img.shields.io/github/license/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/LICENSE)
 [![Issues](https://img.shields.io/github/issues/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/issues)
-[![Build Status](https://divvun-tc.giellalt.org/api/github/v1/repository/giellalt/lang-nno-x-ext-apertium/main/badge.svg)](https://github.com/giellalt/lang-nno-x-ext-apertium/actions)
+[![Build Status](https://builds.giellalt.org/api/badge/lang-nno-x-ext-apertium?label=CI)](https://builds.giellalt.org/pipelines/lang-nno-x-ext-apertium/builds/latest)
+[![Glottolog](https://img.shields.io/badge/Glottolog-green)](https://glottolog.org/resource/languoid/id/norw1262)
 
 This page documents the work on the **Norwegian Nynorsk language model** from Apertium.
 
