@@ -5,6 +5,7 @@
 [![License](https://img.shields.io/github/license/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/LICENSE)
 [![Issues](https://img.shields.io/github/issues/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/issues)
 [![Build Status](https://builds.giellalt.org/api/badge/lang-nno-x-ext-apertium?label=CI)](https://builds.giellalt.org/pipelines/lang-nno-x-ext-apertium/builds/latest)
+[![Glottolog](https://img.shields.io/badge/Glottolog-green)](https://glottolog.org/resource/languoid/id/__GLOTTOLOG_ID__)
 
 This page documents the work on the **Norwegian Nynorsk language model** from Apertium.
 
