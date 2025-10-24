@@ -2,14 +2,16 @@
 
 <div class="twocolumn map" markdown="1">
 
-[![Maturity](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgiellalt%2Flang-nno-x-ext-apertium%2Fgh-pages%2Fmaturity.json)](https://giellalt.github.io/MaturityClassification.html)
-![Lemma count](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgiellalt%2Flang-nno-x-ext-apertium%2Fgh-pages%2Flemmacount.json)
-[![License](https://img.shields.io/github/license/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/LICENSE)
-[![Issues](https://img.shields.io/github/issues/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/issues)
-[![Build Status](https://builds.giellalt.org/api/badge/lang-nno-x-ext-apertium?label=CI)](https://builds.giellalt.org/pipelines/lang-nno-x-ext-apertium/builds/latest)
-[![Glottolog](https://img.shields.io/badge/Glottolog-green)](https://glottolog.org/resource/languoid/id/norw1262)
-
 {% include_relative language-map.md %}
+
+<div class="badges" markdown="1">
+[![Maturity](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgiellalt%2Flang-nno-x-ext-apertium%2Fgh-pages%2Fmaturity.json)](https://giellalt.github.io/MaturityClassification.html) <br/>
+![Lemma count](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgiellalt%2Flang-nno-x-ext-apertium%2Fgh-pages%2Flemmacount.json) <br/>
+[![License](https://img.shields.io/github/license/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/LICENSE) <br/>
+[![Issues](https://img.shields.io/github/issues/giellalt/lang-nno)](https://github.com/giellalt/lang-nno/issues) <br/>
+[![Build Status](https://builds.giellalt.org/api/badge/lang-nno-x-ext-apertium?label=CI)](https://builds.giellalt.org/pipelines/lang-nno-x-ext-apertium/builds/latest) <br/>
+[![Glottolog](https://img.shields.io/badge/Glottolog-green)](https://glottolog.org/resource/languoid/id/norw1262)
+</div>
 
 Center location data taken from [Glottolog](https://glottolog.org/). Area extent is local data. Both can be adjusted if wrong - file a pull request!
 
