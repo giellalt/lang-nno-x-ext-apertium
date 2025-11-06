@@ -110,13 +110,22 @@ $(srcdir)/ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz: $(GT_LEXC_ROOT) \
         $(srcdir)/ext-Apertium-$(GLANG)/configure
 	$(AM_V_GEN)cd $(dir $@ ) && $(MAKE) $(notdir $@ )
 
-.generated/lexicon.tmp.hfst: ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz \
+.generated/lexicon.split.hfst: ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz \
 		$(GENDIR)
 	$(AM_V_TXT2FST)gunzip --stdout $< \
 		| sed -e "s/ /\'@_SPACE_@\'/g" \
 		| $(HFST_TXT2FST) $(MORE_VERBOSITY) $(HFST_FORMAT) --epsilon=ε \
 		| $(HFST_INVERT) $(MORE_VERBOSITY) \
 		-o $@
+
+# XXX: I hardcoded 3 splits here cause writing bash script for pairwise joining
+# is an effort
+.generated/lexicon.tmp.hfst: .generated/lexicon.split.hfst
+		$(AM_V_GEN)$(HFST_SPLIT) -i $< -p ".generated/splits-"
+		$(AM_V_GEN)$(HFST_DISJUNCT) -1 .generated/splits-1.hfst \
+				-2 .generated/splits-2.hfst |\
+				$(HFST_DISJUNCT) -1 - -2 .generated/splits-3.hfst |\
+				$(HFST_DISJUNCT) -1 - -2 .generated/splits-4.hfst -o $@
 
 .generated/lexicon-tags.txt: .generated/lexicon-sigma.txt
 	$(AM_V_GEN)grep '<.*>' $< > $@
