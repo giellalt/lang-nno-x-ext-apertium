@@ -140,9 +140,9 @@ $(srcdir)/ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz: $(GT_LEXC_ROOT) \
 #		> $@
 
 # Relabel analyser tags from Apertium style to GiellaLT style:
-lexicon.hfst: .generated/lexicon.tmp.hfst .generated/lexicon-tags.relabel
+.generated/lexicon.hfst: .generated/lexicon.tmp.hfst .generated/lexicon-tags.relabel
 	$(AM_V_HSUBST)$(HFST_SUBSTITUTE) $(MORE_VERBOSITY) $(HFSTFLAGS) \
-		-i $< --from-file=lexicon-tags.relabel -o $@
+		-i $< --from-file=.generated/lexicon-tags.relabel -o $@
 
 #lexicon.hfst lexicon.foma: \
 #lexicon.%: lexicon.tmp.% lexicon-relabel.%
