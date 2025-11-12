@@ -1,17 +1,14 @@
-spellername = "Norwegian Nynorsk (Apertium)"
-spellerversion = "0.1.1"
-
 # Name of the speller package in various languages.
 # The default is English + autonym:
 [speller.name]
-en = "Norwegian Nynorsk (Apertium) spellchecker (Apertium)"
-nn = "Autonym spellchecker (Apertium)"
+en = "Norwegian Nynorsk (Apertium spellchecker (Apertium"
+nn = "Autonym spellchecker (Apertium"
 
 # Description of the speller package in various languages.
 # The default is English + autonym:
 [speller.description]
-en = "A spellchecker for Norwegian Nynorsk (Apertium), made by members of the language community, and by the Divvun and Giellatekno groups at UiT The Arctic University of Norway"
-nn = "TRANSLATE: A spellchecker for Norwegian Nynorsk (Apertium), made by members of the language community, and by the Divvun and Giellatekno groups at UiT The Arctic University of Norway"
+en = "A spellchecker for Norwegian Nynorsk (Apertium, made by members of the language community, and by the Divvun and Giellatekno groups at UiT The Arctic University of Norway"
+nn = "TRANSLATE: A spellchecker for Norwegian Nynorsk (Apertium, made by members of the language community, and by the Divvun and Giellatekno groups at UiT The Arctic University of Norway"
 
 [macos]
 system_pkg_id = "no.divvun.MacDivvun.nno-x-ext-apertium"
@@ -19,3 +16,15 @@ system_pkg_id = "no.divvun.MacDivvun.nno-x-ext-apertium"
 [windows]
 system_product_code = "{EE4F2CF7-649B-488B-A66B-A65BAD0F25B4}_is1"
 # extra_locales = { nno = "nno-x-ext-apertium" }
+
+[package.speller]
+name = "Norwegian Nynorsk (Apertium"
+version = "0.1.1"
+
+[package.grammar]
+name = "Norwegian Nynorsk (Apertium"
+version = "0.1.0"
+
+[package.tts-text-proc]
+name = "Norwegian Nynorsk (Apertium"
+version = "0.1.0"
