@@ -1,6 +1,3 @@
-spellername = "@GLANGUAGE@"
-spellerversion = "@SPELLERVERSION@"
-
 # Name of the speller package in various languages.
 # The default is English + autonym:
 [speller.name]
@@ -19,3 +16,15 @@ system_pkg_id = "no.divvun.MacDivvun.nno-x-ext-apertium"
 [windows]
 system_product_code = "{EE4F2CF7-649B-488B-A66B-A65BAD0F25B4}_is1"
 # extra_locales = { nno = "nno-x-ext-apertium" }
+
+[package.speller]
+name = "@GLANGUAGE@"
+version = "@SPELLERVERSION@"
+
+[package.grammar]
+name = "@GLANGUAGE@"
+version = "@GRAMCHECKVERSION@"
+
+[package.tts-text-proc]
+name = "@GLANGUAGE@"
+version = "@TTSTEXTPROCVERSION@"
