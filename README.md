@@ -1,8 +1,8 @@
 The Norwegian Nynorsk morphology and tools
 ==========================================
 
-[![Maturity](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgiellalt%2Flang-nno-x-ext-apertium%2Fgh-pages%2Fmaturity.json)](https://giellalt.github.io/MaturityClassification.html)
-![Lemma count](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgiellalt%2Flang-nno-x-ext-apertium%2Fgh-pages%2Flemmacount.json)
+[![Maturity](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgiellalt%2Flang-nno-x-ext-apertium%2Fgh-pages%2Fbadgedata%2Ffst-maturity.json)](https://giellalt.github.io/MaturityClassification.html)
+![Lemma count](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fgiellalt%2Flang-nno-x-ext-apertium%2Fgh-pages%2Fbadgedata%2Ffst-lemmacount.json)
 [![GitHub issues](https://img.shields.io/github/issues-raw/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/issues)
 [![License](https://img.shields.io/github/license/giellalt/lang-nno-x-ext-apertium)](https://github.com/giellalt/lang-nno-x-ext-apertium/blob/main/LICENSE)
 [![Doc Build Status](https://github.com/giellalt/lang-nno-x-ext-apertium/workflows/Docs/badge.svg)](https://github.com/giellalt/lang-nno-x-ext-apertium/actions)
