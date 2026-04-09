@@ -1,0 +1,213 @@
+{
+  "metadata": {
+    "info": {
+      "locale": "nn",
+      "title": [
+        {
+          "lang": null,
+          "$value": "Norwegian Nynorsk (Apertium) spellchecker (Apertium)"
+        }
+      ],
+      "description": "A spellchecker for Norwegian Nynorsk (Apertium), made by members of the language community, and by the Divvun and Giellatekno groups at UiT The Arctic University of Norway.",
+      "producer": "Giellatekno/Divvun/UiT contributors"
+    },
+    "acceptor": {
+      "type": "general",
+      "id": "acceptor.default.hfst",
+      "title": [
+        {
+          "lang": null,
+          "$value": "Norwegian Nynorsk (Apertium) speller lexicon"
+        }
+      ],
+      "description": "Norwegian Nynorsk (Apertium) speller lexicon compiled with HFST.",
+      "continuation": null
+    },
+    "errmodel": {
+      "id": "errmodel.default.hfst",
+      "title": [
+        {
+          "lang": null,
+          "$value": "Norwegian Nynorsk (Apertium) error model"
+        }
+      ],
+      "description": "Error model for Norwegian Nynorsk (Apertium)."
+    }
+  },
+  "config": {
+    "n-best": 10,
+    "max-weight": 10000.0,
+    "beam": null,
+    "reweight": {
+      "start-penalty": 10.0,
+      "end-penalty": 10.0,
+      "mid-penalty": 5.0
+    },
+    "node-pool-size": 128,
+    "recase": true,
+    "completion-marker": null
+  },
+  "summary": {
+    "total_words": 1,
+    "first_position": 0,
+    "top_five": 0,
+    "any_position": 0,
+    "no_suggestions": 0,
+    "only_wrong": 1,
+    "false_accept": 0,
+    "true_positive": 1,
+    "false_negative": 0,
+    "true_negative": 0,
+    "slowest_lookup": {
+      "secs": 0,
+      "subsec_nanos": 11797958
+    },
+    "fastest_lookup": {
+      "secs": 0,
+      "subsec_nanos": 11797958
+    },
+    "average_time": {
+      "secs": 0,
+      "subsec_nanos": 11797958
+    },
+    "average_time_95pc": {
+      "secs": 0,
+      "subsec_nanos": 11797958
+    },
+    "average_position_of_correct": 0.0,
+    "average_suggestions_for_correct": 0.0
+  },
+  "results": [
+    {
+      "input": "åvtohke",
+      "expected": "åvtehke",
+      "distance": 1,
+      "suggestions": [
+        {
+          "value": "0vtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        },
+        {
+          "value": "0åvtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        },
+        {
+          "value": "1vtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        },
+        {
+          "value": "1åvtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        },
+        {
+          "value": "2vtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        },
+        {
+          "value": "2åvtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        },
+        {
+          "value": "3vtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        },
+        {
+          "value": "3åvtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        },
+        {
+          "value": "4vtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        },
+        {
+          "value": "4åvtohke",
+          "weight": 20.0,
+          "weight_details": {
+            "lexicon_weight": 0.0,
+            "mutator_weight": 10.0,
+            "reweight_start": 10.0,
+            "reweight_mid": 0.0,
+            "reweight_end": 0.0
+          }
+        }
+      ],
+      "position": null,
+      "time": {
+        "secs": 0,
+        "subsec_nanos": 11797958
+      },
+      "false_accept": false
+    }
+  ],
+  "start_timestamp": {
+    "secs": 1775723405,
+    "subsec_nanos": 449432000
+  },
+  "total_time": {
+    "secs": 0,
+    "subsec_nanos": 11978125
+  }
+}
