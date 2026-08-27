@@ -148,10 +148,23 @@ $(srcdir)/ext-Apertium-$(GLANG)/$(GLANG).automorf.att.gz: $(GT_LEXC_ROOT) \
 #		| sed '$$ s/,/;/' \
 #		> $@
 
-# Relabel analyser tags from Apertium style to GiellaLT style:
-.generated/lexicon.hfst: .generated/lexicon.tmp.hfst .generated/lexicon-tags.relabel
+# Relabel analyser tags from Apertium style to GiellaLT style.
+#
+# Overriding lexc-include.am's GT_LEXICON_HFST_DEPS/_RECIPE (giella-core
+# >= 1.14.0) instead of defining our own ".generated/lexicon.hfst:" rule:
+# that target is already defined there too, and a second definition here
+# would just silently lose the "last definition wins" race whenever that
+# shared file's own rule ordering changes -- which is exactly what used
+# to happen here (only an "overriding recipe" warning, no error, so it
+# went unnoticed: this file's own .generated/lexicon.hfst, built from the
+# Apertium subtree, was never actually used -- the generic hfst-lexc
+# rule silently won instead, building from the near-empty root.lexc).
+GT_LEXICON_HFST_DEPS = .generated/lexicon.tmp.hfst .generated/lexicon-tags.relabel
+
+define GT_LEXICON_HFST_RECIPE
 	$(AM_V_HSUBST)$(HFST_SUBSTITUTE) $(MORE_VERBOSITY) $(HFSTFLAGS) \
 		-i $< --from-file=.generated/lexicon-tags.relabel -o $@
+endef
 
 #lexicon.hfst lexicon.foma: \
 #lexicon.%: lexicon.tmp.% lexicon-relabel.%
