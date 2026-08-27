@@ -58,10 +58,12 @@ LIST brukte_bruka_vbs = "<.*(bruke|ane|bake|betale|breke|dreie|dynge|eine|glane|
 LIST brukte_bruka_adjs = "<.*(bruk|bak|betal|klar|kok|lur|rop|sil|slip|spar|spel|svar|tal|tvil)t>"r ; # doesn't include final -t in $1
 LIST brukte_bruka_adjs2 = "<.*(drei|lei)dd>"r ; # doesn't include final -dd in $1
 LIST brukte_bruka_adjs3 = "<.*(dyng)d>"r ;  # doesn't include final -d in $1
+LIST brukte_bruka_n = "<(lik)er.*>"r ;  # likar.* instead of liker.* in $1
 SELECT:compounds (v:brukte_bruka.vb-e2a) + brukte_bruka_vbs  IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1\\b/r)) ;
 SELECT:adjs      (v:brukte_bruka.vb-e2a) + brukte_bruka_adjs IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1e\\b/r)) ; # add final -e
 SELECT:adjs2     (v:brukte_bruka.vb-e2a) + brukte_bruka_adjs2 IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1e\\b/r)) ; # add final -e
 SELECT:adjs3     (v:brukte_bruka.vb-e2a) + brukte_bruka_adjs3 IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1e\\b/r)) ; # add final -e
+SELECT:n     (v:brukte_bruka.vb-e2a) + brukte_bruka_n IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1e\\b/r)) ; # add final -e
 SELECT:lm_filter (v:brukte_bruka.vb-e2a "<(.+)>"r)     IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1\\b/r)) ;
 SELECT:mw_filter (v:brukte_bruka.vb-e2a "<(.+)#.*>"r)  IF (0 (VSTR:VAR:brukte_bruka.vb-e2a=/\\b$1\\b/r)) ;
 SELECT:no_filter (v:brukte_bruka.vb-e2a)               IF (0      (VAR:brukte_bruka.vb-e2a=*)) ;
@@ -125,6 +127,9 @@ REMOVE (v:dratt_dradd.vb-en2tt) ;
 
 SELECT (v:gir_gjev.vb-en2tt) IF (0 (VAR:gir_gjev.vb-en2tt)) ;
 REMOVE (v:gir_gjev.vb-en2tt) ;
+
+SELECT (v:givar_gjevar.stav) IF (0 (VAR:givar_gjevar.stav)) ;
+REMOVE (v:givar_gjevar.stav) ;
 
 SELECT (v:eigde_åtte.vb) IF (0 (VAR:eigde_åtte.vb)) ;
 REMOVE (v:eigde_åtte.vb) ;
@@ -273,6 +278,9 @@ REMOVE (v:eigentleg_eigenleg.stav) ;
 SELECT (v:dess-der_di.afx) IF (0 (VAR:dess-der_di.afx)) ;
 REMOVE (v:dess-der_di.afx) ;
 
+SELECT (v:der_di.afx) IF (0 (VAR:der_di.afx)) ;
+REMOVE (v:der_di.afx) ;
+
 SELECT (v:fly_flyge.vb-inf) IF (0 (VAR:fly_flyge.vb-inf)) ;
 REMOVE (v:fly_flyge.vb-inf) ;
 
@@ -350,6 +358,12 @@ REMOVE (v:linje_line.stav) ;
 
 SELECT (v:brud_brur.stav) IF (0 (VAR:brud_brur.stav)) ;
 REMOVE (v:brud_brur.stav) ;
+
+SELECT (v:apos_fot.teikn) IF (0 (VAR:apos_fot.teikn)) ;
+REMOVE (v:apos_fot.teikn) ;
+
+SELECT (v:sitat_tomme.teikn) IF (0 (VAR:sitat_tomme.teikn)) ;
+REMOVE (v:sitat_tomme.teikn) ;
 
 # Possible input:
 # ^byggeleiing<n><f><sg><def>/b<v:ggj_gg>yggeleiinga/byggjeleiinga$ ^vere<vblex><pres>/er$ […]
