@@ -73,6 +73,8 @@ LIST ij = ij ;
 
 LIST cm = cm ;
 
+LIST siffer = "[0-9]+([., ][0-9]+)*"r ;
+
 # OBT sets converted to Apertium:
 LIST sp = sp ;
 LIST %-vis% = ".*vis"r ;
@@ -461,7 +463,7 @@ LIST farlege-adj-subst = "farg"  "venstre"  "tunge"  "slage"  "skrå"  "skarp"  
 LIST farlege-fem-subst = ("ho"  sg ind gen) ("beste"  sg ind) ("låg"  sg ind) ("or"  sg) ("eige"  sg def) ("å"  sg ind) ("vorte"  sg ind) ("ho"  sg ind) ;
 LIST farlege-fl-subst = ("farg"  n nt pl def) ("gode"  n nt pl ind) ("beste"  nt pl ind) ("vonde"  pl ind) ("tyde"  pl ind) ("finn"  pl ind) ("tre"  pl ind) ("finne"  pl ind) ("komme"  pl ind) ("under"  pl ind) ("får"  pl) ("slag"  gen) ("eg"  pl) ("lo"  pl) ("var"  pl) ("al"  pl def) ("nå"  pl) ("sett"  pl) ("mot"  pl ind) ("men"  pl ind) ("godt"  ind) ("godt"  def) ("sjølv"  ind) ("no"  ind) ("stygge"  ind) ("skal"  pl) ("tok" pl ind);
 LIST farlege-forledd-verb = ("snerte"  vblex pret) ("åre"  pret) ("velje"  pres) ("fare"  pret) ("nå"  pres) ("elle"  pres) ("fø"  pres) ("sitje"  pres) ("sitte"  pres) ("helle"  pres) ("slett"  pres) ("kontre"  pret) ("sette"  pres) ;
-LIST farlege-imp = "jazze"  "opptake"  "visse"  "velje"  "vede"  "vare"  "uffe"  "så"  "skale"  "same"  "nå"  "neie"  "mine"  "kvare"  "hurre"  "hare"  "hanse"  "gode"  "føre"  "eine"  "betre"  ;
+LIST farlege-imp = "fin" "jazze"  "opptake"  "visse"  "velje"  "vede"  "vare"  "uffe"  "så"  "skale"  "same"  "nå"  "neie"  "mine"  "kvare"  "hurre"  "hare"  "hanse"  "gode"  "føre"  "eine"  "betre"  ;
 LIST farlege-inf = "ferje" "ære" "dekke" "visse" "unne" "tre" "så" "støtte" "spanne" "slike" "skule" "skade" "same" "sake" "pose" "nå" "nye" "norske" "neve" "neste" "neppe" "møte" "mykje" "løyve" "lite" "like" "lette" "lekre" "kyrkje" "kjede" "jorde" "høve" "heime" "heile" "glede" "gjorde" "følgje" "friske" "fri" "fjerne" "eine" "eigne" "døme" "dette" "betre" "anne" "djupe" ("hende" adv) ("slette" gen) ("elle" gen) ("felle" gen) ;
 LIST farlege-mask-subst = "ville"  "ved"  "skrå"  "like"  "helt"  "heller"  "eldste"  ("beste"  sg ind) ("or"  sg) ("å"  sg ind) ("fyrste"  sg ind) ("gule"  sg ind) ("vert"  sg ind) ("lit"  sg def) ("middel"  gen) ("alt"  sg ind) ("mens"  sg ind) ;
 LIST farlege-nøyt-subst = "vilt"  "venstre"  "var"  "under"  "skrå"  "skal"  "sjølv"  "sett"  "positiv"  "nå"  "ny"  "mot"  "lik"  "konkret"  "høgre"  "godt"  "gode"  "folk"  "bak"  ("beste"  sg ind) ("stikk"  adv) ("gjeld"  ind) ("or"  ind) ("no"  ind) ("skjer"  ind) ("kor"  ind) ("eige"  ind) ("rikt"  ind) ("fort"  ind) ("slag"  gen) ("eg"  sg) ("lo"  pl) ("al"  pl def) ("middel"  gen) ("men"  sg ind) ("men"  pl ind) ("tre"  ind) ("trass"  ind) ;
@@ -922,6 +924,19 @@ SELECT:name-seen-samecase-midsent np + ("(<\\p{Lu}.*>)"r) IF
 # «Kilde på annenplass i utfortreningen. Aleksander Aamodt Kilde kjørte knallsterkt …»
 # «Sammenlagtpremien er den gjeveste, sa Kilde til NTB. Kilde og Alexis Pinturault kjempet om totalseieren …»
 
+
+
+# Fot-teiknet er berre fot etter tal, elles er det skrivemaskinsapostrof:
+SELECT:fot-fot ("'") IF
+        (-1 siffer)
+        ;
+SELECT:fot-tomme ("'") IF
+        (-2 siffer)
+        (-1 ("'"))              # TODO: kanskje '' som eige oppslag?
+        ;
+REMOVE:fot-apos ("'");
+
+
 ###################################################
 # SECTION Early removal of unlikely / rare forms: #
 ###################################################
@@ -961,6 +976,7 @@ REMOVE:unlikely ("dikt") + adv;
 REMOVE:unlikely ("Berre") + np;
 REMOVE:unlikely SUB:* ("mjølke") IF (0/* ("mjølk")); # sannsynlegvis ikkje rogn
 REMOVE:unlikely ("skylding") IF (0 ("skulding")) ;
+"<Stor>"i REMOVE:unlikely np;
 
 # sec 1
 CONSTRAINTS
@@ -49496,6 +49512,21 @@ CONSTRAINTS
 	(NOT 1 prep)
 ;
 
+"<auga>" SELECT:det-nakne-auga n + sg + def IF
+        (-2 ("den"))
+        (-1 ("naken"))
+        ;
+"<auga>" SELECT:auga-til-stormen n + sg + def IF # uff
+        (1 ("til"))
+        (2 ("storm"))
+        ;
+"<auga>" SELECT:eine-auga n + sg + def IF
+        (-1 ("eine"))
+        ;
+"<auga>" SELECT:få-auga-på n + sg + ind IF
+        (-1 ("få"))
+        (1 ("på"))
+        ;
 
 #:6044
  "<beste>"   SELECT:6044   (n) IF
@@ -53104,6 +53135,8 @@ SELECT:nå-er-anlegget-gravminne $$NUMBER IF
 "<som>" SELECT:default (cnjsub) ;
 SELECT:default ("arbeid") IF (0 ("arbeide")) ;
 SELECT:default ("samarbeid") IF (0 ("samarbeide")) ;
+SELECT:default pl IF (0 ("<auga>"i)) ;
+REMOVE:default ("finn") IF (0 ("finne")) ;
 
 LIST målingpå = "hus" "vegg" "graffiti" "strek" "bilde" "bilete" ;
 SELECT ("måle¹") IF (1 målingpå) ;
